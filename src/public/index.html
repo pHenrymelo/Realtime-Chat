@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Opa</title>
+</head>
+<body>
+
+    <main>
+        <div class="cellphone">
+            <div class="screen">
+                <div id="messages">
+                   <div>
+                    mensagem aqui
+                   </div>
+                </div>
+                <form action="" class="textbox">
+                    <input type="text" id="msginput" placeholder="Digite sua mensagem">
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        const messages = document.getElementById('messages')
+        const input = document.getElementById('msginput')
+
+        document.addEventListener('submit', (e) => {
+            e.preventDefault()
+            if(input.value) {
+                socket.emit('message', input.value)
+            }
+            input.value = ''
+            
+        })
+
+        socket.on('message', (msg) =>{
+            const message = document.createElement('div')
+            message.innerText = msg
+            messages.appendChild(message)
+        })
+        
+    </script>
+
+</body>
+</html>
